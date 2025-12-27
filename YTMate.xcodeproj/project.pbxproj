@@ -1,0 +1,754 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		/* Main App Files */
+		001A0001 /* YTMateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1001; };
+		001A0002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1002; };
+		001A0003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 001A1003; };
+
+		/* Models */
+		001A0010 /* VideoSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1010; };
+		001A0011 /* ActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1011; };
+		001A0012 /* VibeCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1012; };
+		001A0013 /* GeminiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1013; };
+
+		/* Views */
+		001A0020 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1020; };
+		001A0021 /* SummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1021; };
+		001A0022 /* SummaryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1022; };
+		001A0023 /* ActionItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1023; };
+		001A0024 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1024; };
+		001A0025 /* ClipboardToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1025; };
+		001A0026 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1026; };
+		001A0027 /* SummarySheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1027; };
+		001A0028 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1028; };
+
+		/* ViewModels */
+		001A0030 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1030; };
+		001A0031 /* SummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1031; };
+		001A0032 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1032; };
+
+		/* Services */
+		001A0040 /* GeminiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1040; };
+		001A0041 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1041; };
+		001A0042 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1042; };
+		001A0043 /* ClipboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1043; };
+		001A0044 /* SpotlightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1044; };
+		001A0045 /* YouTubeURLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1045; };
+
+		/* Extensions */
+		001A0050 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1050; };
+		001A0051 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1051; };
+		001A0052 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1052; };
+
+		/* Share Extension */
+		002A0001 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002A1001; };
+		002A0002 /* ShareExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002A1002; };
+
+		/* Firebase SDK */
+		003A0001 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1001; };
+		003A0002 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1002; };
+		003A0003 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1003; };
+		003A0004 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1004; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		004A0001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000A0001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 005A0001;
+			remoteInfo = YTMate;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		006A0001 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				006A0002 /* YTMateShareExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		/* Main App */
+		001A1001 /* YTMateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTMateApp.swift; sourceTree = "<group>"; };
+		001A1002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		001A1003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+
+		/* Models */
+		001A1010 /* VideoSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSummary.swift; sourceTree = "<group>"; };
+		001A1011 /* ActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem.swift; sourceTree = "<group>"; };
+		001A1012 /* VibeCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibeCategory.swift; sourceTree = "<group>"; };
+		001A1013 /* GeminiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiResponse.swift; sourceTree = "<group>"; };
+
+		/* Views */
+		001A1020 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		001A1021 /* SummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCardView.swift; sourceTree = "<group>"; };
+		001A1022 /* SummaryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDetailView.swift; sourceTree = "<group>"; };
+		001A1023 /* ActionItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemRow.swift; sourceTree = "<group>"; };
+		001A1024 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		001A1025 /* ClipboardToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardToastView.swift; sourceTree = "<group>"; };
+		001A1026 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		001A1027 /* SummarySheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummarySheetView.swift; sourceTree = "<group>"; };
+		001A1028 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+
+		/* ViewModels */
+		001A1030 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		001A1031 /* SummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewModel.swift; sourceTree = "<group>"; };
+		001A1032 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+
+		/* Services */
+		001A1040 /* GeminiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiService.swift; sourceTree = "<group>"; };
+		001A1041 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
+		001A1042 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		001A1043 /* ClipboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardService.swift; sourceTree = "<group>"; };
+		001A1044 /* SpotlightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightService.swift; sourceTree = "<group>"; };
+		001A1045 /* YouTubeURLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeURLParser.swift; sourceTree = "<group>"; };
+
+		/* Extensions */
+		001A1050 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		001A1051 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		001A1052 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+
+		/* Share Extension */
+		002A1001 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		002A1002 /* ShareExtensionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionView.swift; sourceTree = "<group>"; };
+		002A1003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+
+		/* App References */
+		007A0001 /* YTMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YTMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		007A0002 /* YTMateShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YTMateShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		007A0003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		007A0004 /* YTMate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YTMate.entitlements; sourceTree = "<group>"; };
+		007A0005 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		008A0001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				003A0001 /* FirebaseAuth in Frameworks */,
+				003A0002 /* FirebaseFirestore in Frameworks */,
+				003A0003 /* FirebaseVertexAI in Frameworks */,
+				003A0004 /* FirebaseAppCheck in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		008A0002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		009A0001 = {
+			isa = PBXGroup;
+			children = (
+				009A0002 /* YTMate */,
+				009A0003 /* YTMateShareExtension */,
+				009A0004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		009A0002 /* YTMate */ = {
+			isa = PBXGroup;
+			children = (
+				009A0010 /* App */,
+				009A0011 /* Models */,
+				009A0012 /* Views */,
+				009A0013 /* ViewModels */,
+				009A0014 /* Services */,
+				009A0015 /* Extensions */,
+				009A0016 /* Resources */,
+			);
+			path = YTMate;
+			sourceTree = "<group>";
+		};
+		009A0003 /* YTMateShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				002A1001 /* ShareViewController.swift */,
+				002A1002 /* ShareExtensionView.swift */,
+				002A1003 /* Info.plist */,
+			);
+			path = YTMateShareExtension;
+			sourceTree = "<group>";
+		};
+		009A0004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				007A0001 /* YTMate.app */,
+				007A0002 /* YTMateShareExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		009A0010 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				001A1001 /* YTMateApp.swift */,
+				001A1002 /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		009A0011 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				001A1010 /* VideoSummary.swift */,
+				001A1011 /* ActionItem.swift */,
+				001A1012 /* VibeCategory.swift */,
+				001A1013 /* GeminiResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		009A0012 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				001A1020 /* LibraryView.swift */,
+				001A1021 /* SummaryCardView.swift */,
+				001A1022 /* SummaryDetailView.swift */,
+				001A1023 /* ActionItemRow.swift */,
+				001A1024 /* LoadingView.swift */,
+				001A1025 /* ClipboardToastView.swift */,
+				001A1026 /* AuthView.swift */,
+				001A1027 /* SummarySheetView.swift */,
+				001A1028 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		009A0013 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				001A1030 /* LibraryViewModel.swift */,
+				001A1031 /* SummaryViewModel.swift */,
+				001A1032 /* AuthViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		009A0014 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				001A1040 /* GeminiService.swift */,
+				001A1041 /* FirestoreService.swift */,
+				001A1042 /* AuthService.swift */,
+				001A1043 /* ClipboardService.swift */,
+				001A1044 /* SpotlightService.swift */,
+				001A1045 /* YouTubeURLParser.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		009A0015 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				001A1050 /* Date+Extensions.swift */,
+				001A1051 /* String+Extensions.swift */,
+				001A1052 /* View+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		009A0016 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				001A1003 /* Assets.xcassets */,
+				007A0003 /* Info.plist */,
+				007A0004 /* YTMate.entitlements */,
+				007A0005 /* GoogleService-Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		005A0001 /* YTMate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00BA0001 /* Build configuration list for PBXNativeTarget "YTMate" */;
+			buildPhases = (
+				00CA0001 /* Sources */,
+				008A0001 /* Frameworks */,
+				00DA0001 /* Resources */,
+				006A0001 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00EA0001 /* PBXTargetDependency */,
+			);
+			name = YTMate;
+			packageProductDependencies = (
+				003A1001 /* FirebaseAuth */,
+				003A1002 /* FirebaseFirestore */,
+				003A1003 /* FirebaseVertexAI */,
+				003A1004 /* FirebaseAppCheck */,
+			);
+			productName = YTMate;
+			productReference = 007A0001 /* YTMate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		005A0002 /* YTMateShareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00BA0002 /* Build configuration list for PBXNativeTarget "YTMateShareExtension" */;
+			buildPhases = (
+				00CA0002 /* Sources */,
+				008A0002 /* Frameworks */,
+				00DA0002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YTMateShareExtension;
+			productName = YTMateShareExtension;
+			productReference = 007A0002 /* YTMateShareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		000A0001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					005A0001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					005A0002 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 00BA0003 /* Build configuration list for PBXProject "YTMate" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 009A0001;
+			packageReferences = (
+				00FA0001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			productRefGroup = 009A0004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				005A0001 /* YTMate */,
+				005A0002 /* YTMateShareExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00DA0001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				001A0003 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00DA0002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00CA0001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				001A0001 /* YTMateApp.swift in Sources */,
+				001A0002 /* ContentView.swift in Sources */,
+				001A0010 /* VideoSummary.swift in Sources */,
+				001A0011 /* ActionItem.swift in Sources */,
+				001A0012 /* VibeCategory.swift in Sources */,
+				001A0013 /* GeminiResponse.swift in Sources */,
+				001A0020 /* LibraryView.swift in Sources */,
+				001A0021 /* SummaryCardView.swift in Sources */,
+				001A0022 /* SummaryDetailView.swift in Sources */,
+				001A0023 /* ActionItemRow.swift in Sources */,
+				001A0024 /* LoadingView.swift in Sources */,
+				001A0025 /* ClipboardToastView.swift in Sources */,
+				001A0026 /* AuthView.swift in Sources */,
+				001A0027 /* SummarySheetView.swift in Sources */,
+				001A0028 /* SettingsView.swift in Sources */,
+				001A0030 /* LibraryViewModel.swift in Sources */,
+				001A0031 /* SummaryViewModel.swift in Sources */,
+				001A0032 /* AuthViewModel.swift in Sources */,
+				001A0040 /* GeminiService.swift in Sources */,
+				001A0041 /* FirestoreService.swift in Sources */,
+				001A0042 /* AuthService.swift in Sources */,
+				001A0043 /* ClipboardService.swift in Sources */,
+				001A0044 /* SpotlightService.swift in Sources */,
+				001A0045 /* YouTubeURLParser.swift in Sources */,
+				001A0050 /* Date+Extensions.swift in Sources */,
+				001A0051 /* String+Extensions.swift in Sources */,
+				001A0052 /* View+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00CA0002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				002A0001 /* ShareViewController.swift in Sources */,
+				002A0002 /* ShareExtensionView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00EA0001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 005A0002 /* YTMateShareExtension */;
+			targetProxy = 004A0001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		/* Debug - Main App */
+		00AA0001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YTMate/Resources/YTMate.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YTMate/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "YT Mate";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ytmate.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		/* Release - Main App */
+		00AA0002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YTMate/Resources/YTMate.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YTMate/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "YT Mate";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ytmate.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		/* Debug - Share Extension */
+		00AA0003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YTMateShareExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "YT Insights";
+				INFOPLIST_KEY_NSExtension = {
+					NSExtensionAttributes = {
+						NSExtensionActivationRule = "SUBQUERY (extensionItems, $extensionItem, SUBQUERY ($extensionItem.attachments, $attachment, ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO \"public.url\").@count == 1).@count == 1";
+					};
+					NSExtensionPointIdentifier = "com.apple.share-services";
+					NSExtensionPrincipalClass = "$(PRODUCT_MODULE_NAME).ShareViewController";
+				};
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ytmate.app.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		/* Release - Share Extension */
+		00AA0004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YTMateShareExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "YT Insights";
+				INFOPLIST_KEY_NSExtension = {
+					NSExtensionAttributes = {
+						NSExtensionActivationRule = "SUBQUERY (extensionItems, $extensionItem, SUBQUERY ($extensionItem.attachments, $attachment, ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO \"public.url\").@count == 1).@count == 1";
+					};
+					NSExtensionPointIdentifier = "com.apple.share-services";
+					NSExtensionPrincipalClass = "$(PRODUCT_MODULE_NAME).ShareViewController";
+				};
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ytmate.app.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		/* Debug - Project */
+		00AA0005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		/* Release - Project */
+		00AA0006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00BA0001 /* Build configuration list for PBXNativeTarget "YTMate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AA0001 /* Debug */,
+				00AA0002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00BA0002 /* Build configuration list for PBXNativeTarget "YTMateShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AA0003 /* Debug */,
+				00AA0004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00BA0003 /* Build configuration list for PBXProject "YTMate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00AA0005 /* Debug */,
+				00AA0006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		00FA0001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		003A1001 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 00FA0001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		003A1002 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 00FA0001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		003A1003 /* FirebaseVertexAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 00FA0001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseVertexAI;
+		};
+		003A1004 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 00FA0001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 000A0001 /* Project object */;
+}
