@@ -28,6 +28,7 @@
 		001A0026 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1026; };
 		001A0027 /* SummarySheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1027; };
 		001A0028 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1028; };
+		001A0029 /* AddVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1029; };
 
 		/* ViewModels */
 		001A0030 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001A1030; };
@@ -104,6 +105,7 @@
 		001A1026 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		001A1027 /* SummarySheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummarySheetView.swift; sourceTree = "<group>"; };
 		001A1028 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		001A1029 /* AddVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVideoView.swift; sourceTree = "<group>"; };
 
 		/* ViewModels */
 		001A1030 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				001A1026 /* AuthView.swift */,
 				001A1027 /* SummarySheetView.swift */,
 				001A1028 /* SettingsView.swift */,
+				001A1029 /* AddVideoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				001A0026 /* AuthView.swift in Sources */,
 				001A0027 /* SummarySheetView.swift in Sources */,
 				001A0028 /* SettingsView.swift in Sources */,
+				001A0029 /* AddVideoView.swift in Sources */,
 				001A0030 /* LibraryViewModel.swift in Sources */,
 				001A0031 /* SummaryViewModel.swift in Sources */,
 				001A0032 /* AuthViewModel.swift in Sources */,

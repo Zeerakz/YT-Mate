@@ -7,12 +7,12 @@ struct LibraryView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = LibraryViewModel()
     @StateObject private var authService = AuthService.shared
+    @StateObject private var geminiService = GeminiService.shared
     @StateObject private var clipboardService = ClipboardService.shared
 
     @State private var selectedSummary: VideoSummary?
     @State private var showingSettings = false
-    @State private var showingURLInput = false
-    @State private var manualURL = ""
+    @State private var showingAddVideo = false
 
     var body: some View {
         NavigationStack {
@@ -49,7 +49,7 @@ struct LibraryView: View {
 
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
-                        showingURLInput = true
+                        showingAddVideo = true
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.title2)
@@ -75,8 +75,13 @@ struct LibraryView: View {
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
             }
-            .sheet(isPresented: $showingURLInput) {
-                urlInputSheet
+            .sheet(isPresented: $showingAddVideo) {
+                AddVideoView { summary in
+                    // Insert new summary at top of list
+                    viewModel.summaries.insert(summary, at: 0)
+                }
+                .environmentObject(geminiService)
+                .environmentObject(authService)
             }
             .sheet(isPresented: $viewModel.showingSummarySheet) {
                 if let url = viewModel.processingURL {
@@ -177,67 +182,15 @@ struct LibraryView: View {
         ContentUnavailableView {
             Label("No Summaries Yet", systemImage: "brain.head.profile")
         } description: {
-            Text("Share a YouTube video to get started, or paste a URL below.")
+            Text("Share a YouTube video to get started, or tap + to paste a URL.")
         } actions: {
             Button {
-                showingURLInput = true
+                showingAddVideo = true
             } label: {
-                Text("Add YouTube URL")
+                Label("Add YouTube Video", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderedProminent)
         }
-    }
-
-    private var urlInputSheet: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                Text("Enter YouTube URL")
-                    .font(.headline)
-
-                TextField("https://youtube.com/watch?v=...", text: $manualURL)
-                    .textFieldStyle(.roundedBorder)
-                    .textContentType(.URL)
-                    .keyboardType(.URL)
-                    .autocapitalization(.none)
-                    .autocorrectionDisabled()
-
-                if !manualURL.isEmpty {
-                    let validation = YouTubeURLParser.validate(manualURL)
-                    if validation.isValid {
-                        Label("Valid YouTube URL", systemImage: "checkmark.circle.fill")
-                            .foregroundStyle(.green)
-                    } else {
-                        Label(validation.errorMessage ?? "Invalid URL", systemImage: "xmark.circle.fill")
-                            .foregroundStyle(.red)
-                    }
-                }
-
-                Spacer()
-            }
-            .padding()
-            .navigationTitle("Add Video")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        manualURL = ""
-                        showingURLInput = false
-                    }
-                }
-
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Summarize") {
-                        Task {
-                            await viewModel.processURL(manualURL, userId: authService.userId ?? "", context: modelContext)
-                        }
-                        manualURL = ""
-                        showingURLInput = false
-                    }
-                    .disabled(!YouTubeURLParser.isValidYouTubeURL(manualURL))
-                }
-            }
-        }
-        .presentationDetents([.medium])
     }
 }
 
