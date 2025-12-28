@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import FirebaseFirestore
 
 /// Main model representing a summarized YouTube video
 /// Persisted locally with SwiftData and synced to Cloud Firestore
@@ -143,8 +144,8 @@ extension VideoSummary {
             vibeCategory: vibeCategory,
             actionItems: actionItems,
             userNotes: data["userNotes"] as? String,
-            createdAt: (data["createdAt"] as? Date) ?? Date(),
-            updatedAt: (data["updatedAt"] as? Date) ?? Date(),
+            createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
+            updatedAt: (data["updatedAt"] as? Timestamp)?.dateValue() ?? Date(),
             userId: userId,
             isSynced: true,
             firestoreId: documentId

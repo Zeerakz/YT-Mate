@@ -1,12 +1,19 @@
 import Foundation
-import FirebaseVertexAI
+import FirebaseAI
 
-/// Service for interacting with Gemini 3 Flash via Vertex AI in Firebase
-/// Handles video summarization using native video understanding capabilities
+/// Service for interacting with Gemini via Firebase AI Logic
+/// Handles video summarization using native YouTube URL understanding
+///
+/// Updated for Firebase AI Logic SDK (formerly Vertex AI in Firebase)
+/// Supports Gemini 2.5 Flash and Gemini 3 Flash models
 @MainActor
 final class GeminiService: ObservableObject {
+    // MARK: - Singleton
+
     /// Shared singleton instance
     static let shared = GeminiService()
+
+    // MARK: - Published State
 
     /// Current processing state
     @Published private(set) var isProcessing = false
@@ -14,8 +21,23 @@ final class GeminiService: ObservableObject {
     /// Last error message
     @Published private(set) var errorMessage: String?
 
-    /// The Vertex AI model instance
+    // MARK: - Private Properties
+
+    /// The Firebase AI instance
+    private var firebaseAI: FirebaseAI?
+
+    /// The generative model instance
     private var model: GenerativeModel?
+
+    /// Rate limiting: Track daily YouTube video processing
+    private var dailyVideoCount: Int = 0
+    private var lastResetDate: Date = Date()
+
+    /// Maximum YouTube videos per day (8 hours at ~10 min avg = ~48 videos, be conservative)
+    private let maxDailyVideos: Int = 40
+
+    /// Model configuration
+    private let modelName = "gemini-2.5-flash"  // Stable model, use "gemini-3-flash-preview" for latest
 
     /// System prompt for consistent, actionable output
     private let systemInstruction = """
@@ -34,7 +56,7 @@ final class GeminiService: ObservableObject {
     - Focus on instructions, not descriptions
     - BAD: "He talks about lighting"
     - GOOD: "Place key light at 45-degree angle from subject"
-    - Include accurate timestamps where each action is discussed
+    - Include accurate timestamps (in seconds) where each action is discussed
     - Start each headline with an action verb
 
     For 'vibe_category':
@@ -46,31 +68,73 @@ final class GeminiService: ObservableObject {
     - Options: Beginner, Intermediate, Advanced, Expert
     """
 
+    // MARK: - Initialization
+
     private init() {
-        setupModel()
+        setupFirebaseAI()
     }
 
-    /// Initialize the Gemini model with Vertex AI
-    private func setupModel() {
-        // Initialize Vertex AI with Firebase
-        let vertexAI = VertexAI.vertexAI()
+    /// Initialize Firebase AI Logic with appropriate backend
+    private func setupFirebaseAI() {
+        // Initialize Firebase AI with Google AI backend (free tier available)
+        // Use .vertexAI() for production with Vertex AI backend
+        firebaseAI = FirebaseAI.firebaseAI(backend: .googleAI())
 
         // Configure generation parameters for fast, structured output
         let generationConfig = GenerationConfig(
-            temperature: 0.3,  // Lower temperature for consistent output
+            temperature: 0.3,           // Lower temperature for consistent output
             topP: 0.8,
             topK: 40,
-            maxOutputTokens: 2048,
+            maxOutputTokens: 4096,      // Increased for detailed action items
             responseMIMEType: "application/json"
         )
 
-        // Create the model with Gemini 3 Flash
-        model = vertexAI.generativeModel(
-            modelName: "gemini-2.0-flash-exp",  // Using latest available flash model
+        // Safety settings - allow educational content analysis
+        let safetySettings = [
+            SafetySetting(harmCategory: .harassment, threshold: .blockOnlyHigh),
+            SafetySetting(harmCategory: .hateSpeech, threshold: .blockOnlyHigh),
+            SafetySetting(harmCategory: .sexuallyExplicit, threshold: .blockOnlyHigh),
+            SafetySetting(harmCategory: .dangerousContent, threshold: .blockOnlyHigh)
+        ]
+
+        // Create the model with system instruction
+        model = firebaseAI?.generativeModel(
+            modelName: modelName,
             generationConfig: generationConfig,
+            safetySettings: safetySettings,
             systemInstruction: ModelContent(role: "system", parts: [.text(systemInstruction)])
         )
     }
+
+    // MARK: - Rate Limiting
+
+    /// Check and update rate limiting
+    private func checkRateLimit() throws {
+        let calendar = Calendar.current
+        let now = Date()
+
+        // Reset counter if it's a new day
+        if !calendar.isDate(lastResetDate, inSameDayAs: now) {
+            dailyVideoCount = 0
+            lastResetDate = now
+        }
+
+        // Check if we've exceeded daily limit
+        if dailyVideoCount >= maxDailyVideos {
+            throw GeminiError.dailyQuotaExceeded(remaining: 0)
+        }
+    }
+
+    /// Get remaining daily quota
+    var remainingDailyQuota: Int {
+        let calendar = Calendar.current
+        if !calendar.isDate(lastResetDate, inSameDayAs: Date()) {
+            return maxDailyVideos
+        }
+        return max(0, maxDailyVideos - dailyVideoCount)
+    }
+
+    // MARK: - Video Summarization
 
     /// Summarize a YouTube video by URL
     /// - Parameters:
@@ -83,6 +147,9 @@ final class GeminiService: ObservableObject {
             throw GeminiError.modelNotInitialized
         }
 
+        // Check rate limiting
+        try checkRateLimit()
+
         isProcessing = true
         errorMessage = nil
 
@@ -91,35 +158,57 @@ final class GeminiService: ObservableObject {
         }
 
         do {
-            // Create the prompt with the video URL
-            // Gemini 3 Flash can natively understand video content from URLs
-            let prompt = """
-            Analyze this YouTube video and extract actionable insights:
-            \(url)
+            // Create the video part using FileDataPart with YouTube URL
+            // Firebase AI Logic SDK supports YouTube URLs directly
+            let videoPart = FileDataPart(uri: url, mimeType: "video/*")
+
+            // Create the text prompt
+            let promptText = """
+            Analyze this YouTube video and extract actionable insights.
 
             Return a JSON object with this exact structure:
             \(GeminiResponse.jsonSchema)
+
+            Important:
+            - Timestamps should be in seconds (integer)
+            - Each action item should start with a verb
+            - Be specific and actionable
             """
 
-            // Generate content with the video URL
-            // Gemini's native video understanding will fetch and analyze the video
-            let response = try await model.generateContent(prompt)
+            let textPart = ModelContent.Part.text(promptText)
 
-            // Extract the text response
-            guard let text = response.text else {
+            // Generate content with video + text parts
+            let response = try await model.generateContent([
+                ModelContent(role: "user", parts: [.fileData(videoPart), textPart])
+            ])
+
+            // Increment rate limit counter
+            dailyVideoCount += 1
+
+            // Extract and validate the text response
+            guard let text = response.text, !text.isEmpty else {
                 throw GeminiError.emptyResponse
             }
 
+            // Clean the response (remove markdown code blocks if present)
+            let cleanedText = cleanJSONResponse(text)
+
             // Parse the JSON response
-            guard let jsonData = text.data(using: .utf8) else {
-                throw GeminiError.invalidJSON
+            guard let jsonData = cleanedText.data(using: .utf8) else {
+                throw GeminiError.invalidJSON(details: "Failed to convert response to data")
             }
 
             let decoder = JSONDecoder()
-            let geminiResponse = try decoder.decode(GeminiResponse.self, from: jsonData)
+            let geminiResponse: GeminiResponse
+
+            do {
+                geminiResponse = try decoder.decode(GeminiResponse.self, from: jsonData)
+            } catch let decodingError {
+                throw GeminiError.invalidJSON(details: decodingError.localizedDescription)
+            }
 
             // Generate thumbnail URL from video ID
-            let thumbnailURL = "https://img.youtube.com/vi/\(videoId)/maxresdefault.jpg"
+            let thumbnailURL = YouTubeURLParser.thumbnailURL(for: videoId, quality: .maxRes)
 
             // Convert to domain model
             let summary = geminiResponse.toVideoSummary(
@@ -135,25 +224,32 @@ final class GeminiService: ObservableObject {
             errorMessage = error.localizedDescription
             throw error
         } catch {
-            let geminiError = GeminiError.apiError(error.localizedDescription)
-            errorMessage = geminiError.localizedDescription
-            throw geminiError
+            // Map Firebase AI errors to our error types
+            let mappedError = mapFirebaseError(error)
+            errorMessage = mappedError.localizedDescription
+            throw mappedError
         }
     }
 
     /// Summarize video with streaming response for real-time UI updates
     /// - Parameters:
     ///   - url: The YouTube video URL
-    ///   - onPartialResult: Callback for streaming partial results
+    ///   - videoId: The extracted video ID
+    ///   - userId: The current user's ID
+    ///   - onPartialResult: Callback for streaming partial results (called on MainActor)
+    /// - Returns: A VideoSummary object ready for persistence
     func summarizeVideoStreaming(
         url: String,
         videoId: String,
         userId: String,
-        onPartialResult: @escaping (String) -> Void
+        onPartialResult: @escaping @MainActor (String) -> Void
     ) async throws -> VideoSummary {
         guard let model = model else {
             throw GeminiError.modelNotInitialized
         }
+
+        // Check rate limiting
+        try checkRateLimit()
 
         isProcessing = true
         errorMessage = nil
@@ -163,35 +259,59 @@ final class GeminiService: ObservableObject {
         }
 
         do {
-            let prompt = """
-            Analyze this YouTube video and extract actionable insights:
-            \(url)
+            // Create the video part using FileDataPart with YouTube URL
+            let videoPart = FileDataPart(uri: url, mimeType: "video/*")
+
+            // Create the text prompt
+            let promptText = """
+            Analyze this YouTube video and extract actionable insights.
 
             Return a JSON object with this exact structure:
             \(GeminiResponse.jsonSchema)
+
+            Important:
+            - Timestamps should be in seconds (integer)
+            - Each action item should start with a verb
+            - Be specific and actionable
             """
+
+            let textPart = ModelContent.Part.text(promptText)
 
             var fullResponse = ""
 
             // Stream the response
-            let contentStream = try model.generateContentStream(prompt)
+            let contentStream = try model.generateContentStream([
+                ModelContent(role: "user", parts: [.fileData(videoPart), textPart])
+            ])
 
             for try await chunk in contentStream {
                 if let text = chunk.text {
                     fullResponse += text
-                    onPartialResult(fullResponse)
+                    // Call the callback on MainActor to avoid race conditions
+                    await onPartialResult(fullResponse)
                 }
             }
 
-            // Parse the complete JSON response
-            guard let jsonData = fullResponse.data(using: .utf8) else {
-                throw GeminiError.invalidJSON
+            // Increment rate limit counter
+            dailyVideoCount += 1
+
+            // Clean and parse the complete JSON response
+            let cleanedText = cleanJSONResponse(fullResponse)
+
+            guard let jsonData = cleanedText.data(using: .utf8) else {
+                throw GeminiError.invalidJSON(details: "Failed to convert response to data")
             }
 
             let decoder = JSONDecoder()
-            let geminiResponse = try decoder.decode(GeminiResponse.self, from: jsonData)
+            let geminiResponse: GeminiResponse
 
-            let thumbnailURL = "https://img.youtube.com/vi/\(videoId)/maxresdefault.jpg"
+            do {
+                geminiResponse = try decoder.decode(GeminiResponse.self, from: jsonData)
+            } catch let decodingError {
+                throw GeminiError.invalidJSON(details: decodingError.localizedDescription)
+            }
+
+            let thumbnailURL = YouTubeURLParser.thumbnailURL(for: videoId, quality: .maxRes)
 
             return geminiResponse.toVideoSummary(
                 videoURL: url,
@@ -204,20 +324,104 @@ final class GeminiService: ObservableObject {
             errorMessage = error.localizedDescription
             throw error
         } catch {
-            let geminiError = GeminiError.apiError(error.localizedDescription)
-            errorMessage = geminiError.localizedDescription
-            throw geminiError
+            let mappedError = mapFirebaseError(error)
+            errorMessage = mappedError.localizedDescription
+            throw mappedError
         }
+    }
+
+    // MARK: - Helper Methods
+
+    /// Clean JSON response by removing markdown code blocks
+    private func cleanJSONResponse(_ text: String) -> String {
+        var cleaned = text.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Remove ```json prefix
+        if cleaned.hasPrefix("```json") {
+            cleaned = String(cleaned.dropFirst(7))
+        } else if cleaned.hasPrefix("```") {
+            cleaned = String(cleaned.dropFirst(3))
+        }
+
+        // Remove ``` suffix
+        if cleaned.hasSuffix("```") {
+            cleaned = String(cleaned.dropLast(3))
+        }
+
+        return cleaned.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// Map Firebase AI errors to our error types
+    private func mapFirebaseError(_ error: Error) -> GeminiError {
+        let errorString = error.localizedDescription.lowercased()
+
+        // Check for specific error patterns
+        if errorString.contains("permission") || errorString.contains("private") {
+            return .videoNotAccessible(reason: "Video is private or unavailable")
+        }
+
+        if errorString.contains("quota") || errorString.contains("rate limit") {
+            return .apiQuotaExceeded
+        }
+
+        if errorString.contains("not found") || errorString.contains("404") {
+            return .videoNotAccessible(reason: "Video not found")
+        }
+
+        if errorString.contains("age") || errorString.contains("restricted") {
+            return .videoNotAccessible(reason: "Video is age-restricted")
+        }
+
+        if errorString.contains("blocked") || errorString.contains("safety") {
+            return .contentBlocked
+        }
+
+        if errorString.contains("timeout") || errorString.contains("timed out") {
+            return .requestTimeout
+        }
+
+        if errorString.contains("network") || errorString.contains("connection") {
+            return .networkError(error.localizedDescription)
+        }
+
+        // Default to generic API error
+        return .apiError(error.localizedDescription)
+    }
+
+    // MARK: - Model Switching
+
+    /// Switch to a different model (e.g., for testing Gemini 3)
+    func switchModel(to newModelName: String) {
+        guard let firebaseAI = firebaseAI else { return }
+
+        let generationConfig = GenerationConfig(
+            temperature: 0.3,
+            topP: 0.8,
+            topK: 40,
+            maxOutputTokens: 4096,
+            responseMIMEType: "application/json"
+        )
+
+        model = firebaseAI.generativeModel(
+            modelName: newModelName,
+            generationConfig: generationConfig,
+            systemInstruction: ModelContent(role: "system", parts: [.text(systemInstruction)])
+        )
     }
 }
 
 // MARK: - Error Types
-enum GeminiError: LocalizedError {
+
+enum GeminiError: LocalizedError, Equatable {
     case modelNotInitialized
     case emptyResponse
-    case invalidJSON
-    case videoNotAccessible
-    case quotaExceeded
+    case invalidJSON(details: String)
+    case videoNotAccessible(reason: String)
+    case apiQuotaExceeded
+    case dailyQuotaExceeded(remaining: Int)
+    case contentBlocked
+    case requestTimeout
+    case networkError(String)
     case apiError(String)
 
     var errorDescription: String? {
@@ -226,14 +430,38 @@ enum GeminiError: LocalizedError {
             return "AI model not initialized. Please restart the app."
         case .emptyResponse:
             return "Received empty response from AI. Please try again."
-        case .invalidJSON:
-            return "Failed to parse AI response. Please try again."
-        case .videoNotAccessible:
-            return "Cannot access this video. It may be private or age-restricted."
-        case .quotaExceeded:
+        case .invalidJSON(let details):
+            return "Failed to parse AI response: \(details)"
+        case .videoNotAccessible(let reason):
+            return "Cannot access video: \(reason)"
+        case .apiQuotaExceeded:
             return "API quota exceeded. Please try again later."
+        case .dailyQuotaExceeded(let remaining):
+            return "Daily video limit reached (\(remaining) remaining). Try again tomorrow."
+        case .contentBlocked:
+            return "Content was blocked by safety filters."
+        case .requestTimeout:
+            return "Request timed out. Please try again."
+        case .networkError(let message):
+            return "Network error: \(message)"
         case .apiError(let message):
             return "AI Error: \(message)"
         }
+    }
+
+    /// Whether this error is retryable
+    var isRetryable: Bool {
+        switch self {
+        case .requestTimeout, .networkError:
+            return true
+        case .emptyResponse:
+            return true
+        default:
+            return false
+        }
+    }
+
+    static func == (lhs: GeminiError, rhs: GeminiError) -> Bool {
+        lhs.localizedDescription == rhs.localizedDescription
     }
 }

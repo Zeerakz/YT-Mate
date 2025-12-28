@@ -54,7 +54,7 @@
 		/* Firebase SDK */
 		003A0001 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1001; };
 		003A0002 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1002; };
-		003A0003 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1003; };
+		003A0003 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1003; };
 		003A0004 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 003A1004; };
 /* End PBXBuildFile section */
 
@@ -127,6 +127,7 @@
 		002A1001 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		002A1002 /* ShareExtensionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionView.swift; sourceTree = "<group>"; };
 		002A1003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		002A1004 /* YTMateShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YTMateShareExtension.entitlements; sourceTree = "<group>"; };
 
 		/* App References */
 		007A0001 /* YTMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YTMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,7 +144,7 @@
 			files = (
 				003A0001 /* FirebaseAuth in Frameworks */,
 				003A0002 /* FirebaseFirestore in Frameworks */,
-				003A0003 /* FirebaseVertexAI in Frameworks */,
+				003A0003 /* FirebaseAI in Frameworks */,
 				003A0004 /* FirebaseAppCheck in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,6 +188,7 @@
 				002A1001 /* ShareViewController.swift */,
 				002A1002 /* ShareExtensionView.swift */,
 				002A1003 /* Info.plist */,
+				002A1004 /* YTMateShareExtension.entitlements */,
 			);
 			path = YTMateShareExtension;
 			sourceTree = "<group>";
@@ -301,7 +303,7 @@
 			packageProductDependencies = (
 				003A1001 /* FirebaseAuth */,
 				003A1002 /* FirebaseFirestore */,
-				003A1003 /* FirebaseVertexAI */,
+				003A1003 /* FirebaseAI */,
 				003A1004 /* FirebaseAppCheck */,
 			);
 			productName = YTMate;
@@ -506,6 +508,7 @@
 		00AA0003 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = YTMateShareExtension/YTMateShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -539,6 +542,7 @@
 		00AA0004 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = YTMateShareExtension/YTMateShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -722,7 +726,7 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
+				minimumVersion = 12.5.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -738,10 +742,10 @@
 			package = 00FA0001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
-		003A1003 /* FirebaseVertexAI */ = {
+		003A1003 /* FirebaseAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 00FA0001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseVertexAI;
+			productName = FirebaseAI;
 		};
 		003A1004 /* FirebaseAppCheck */ = {
 			isa = XCSwiftPackageProductDependency;
