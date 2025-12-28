@@ -5,7 +5,7 @@ import FirebaseAI
 /// Handles video summarization using native YouTube URL understanding
 ///
 /// Updated for Firebase AI Logic SDK (formerly Vertex AI in Firebase)
-/// Supports Gemini 2.5 Flash and Gemini 3 Flash models
+/// Uses Gemini 3 Flash for native YouTube video understanding
 @MainActor
 final class GeminiService: ObservableObject {
     // MARK: - Singleton
@@ -37,7 +37,7 @@ final class GeminiService: ObservableObject {
     private let maxDailyVideos: Int = 40
 
     /// Model configuration
-    private let modelName = "gemini-2.5-flash"  // Stable model, use "gemini-3-flash-preview" for latest
+    private let modelName = "gemini-3-flash"  // Gemini 3 Flash (Dec 2025)
 
     /// System prompt for consistent, actionable output
     private let systemInstruction = """
